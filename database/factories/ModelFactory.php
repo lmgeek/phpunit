@@ -33,3 +33,11 @@ $factory->define(App\Article::class, function (Faker\Generator $faker) {
         'title' => $faker->sentence,
     ];
 });
+
+$factory->define(App\Post::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => factory(App\User::class)->create(),
+        'title' => $faker->sentence,
+        'body' => $faker->paragraph,
+    ];
+});
