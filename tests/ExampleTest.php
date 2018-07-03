@@ -6,6 +6,9 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ExampleTest extends TestCase
 {
+    use MailTracking;
+
+
     /**
      * A basic functional test example.
      *
@@ -13,13 +16,17 @@ class ExampleTest extends TestCase
      */
     public function testBasicExample()
     {
-        // 1. Visit the home page
-        $this->visit('/')
-        // 2. Press a "Click Me" link
-        ->click("Click Me")
-        // 3. See "You've been clicked, punk"
-        ->see("You've been clicked, punk")
-        // 4. Assert that the current url is /feedback
-        ->seePageIs('/feedback');
+        Mail::raw('Hello World', function ($message) {
+            $message->to('example@gmail.com');
+            $message->from('zaratedev@gmail.com');
+        });
+
+        Mail::raw('Hello World', function ($message) {
+            $message->to('example@gmail.com');
+            $message->from('zaratedev@gmail.com');
+        });
+
+        $this->seeEmailsSent(2)
+            ->seeEmailTo('example@gmail.com');
     }
 }
